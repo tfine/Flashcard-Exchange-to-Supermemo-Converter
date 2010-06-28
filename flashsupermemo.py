@@ -11,9 +11,10 @@ parser.add_option("--r", "--reverse",
 (options, args) = parser.parse_args()
 
 filename = args[0]
-readera = csv.reader(open(filename, "r"))
+readera = csv.reader(open(filename, "r", encoding="utf-8"))
 
-e = open(args[1], "w")
+e = open(args[1], "w", encoding="utf-8")
+
 
 for x in readera:
     e.write("q: ")
