@@ -10,10 +10,10 @@ parser.add_option("--r", "--reverse",
                   help="reverse questions and answers")
 (options, args) = parser.parse_args()
 
-filename = "pol.csv"
+filename = arg[0]
 readera = csv.reader(open(filename, "r"))
 
-e = open("default.txt", "w")
+e = open(arg[1], "w")
 
 for x in readera:
     e.write("q: ")
