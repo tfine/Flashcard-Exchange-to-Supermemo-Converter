@@ -1,35 +1,18 @@
-#converter for CSV Flashcard Exchange Format to Supermemo Q&A
-#entered into public domain by Todd Fine
-
 import csv
 from optparse import OptionParser
 
 parser = OptionParser()
-parser.add_option("--r", "--reverse",
-                  action="store_true", dest="reverse", default=False,
-                  help="reverse questions and answers")
+parser.add_option("--r", "--reverse", action="store_true", dest="reverse", 
+    default=False, help="reverse questions and answers")
 (options, args) = parser.parse_args()
 
-filename = args[0]
-readera = csv.reader(open(filename, "r", encoding="utf-8"))
+reader = csv.reader(open(args[0], "r"))
+output = open(args[1], "w")
 
-e = open(args[1], "w", encoding="utf-8")
-
-
-for x in readera:
-    e.write("q: ")
-    e.write(x[0])
-    e.write("\n")
-    e.write("a: ")
-    e.write(x[1])
-    e.write("\n")
-    e.write("\n")
+for row in reader:
+    row = tuple(cell.replace('\n', '\x02') for cell in row[:2])
+    output.write("Q: %s\nA: %s\n\n" % row)
     if options.reverse:
-        e.write("q: ")
-        e.write(x[1])
-        e.write("\n")
-        e.write("a: ")
-        e.write(x[0])
-        e.write("\n")
-        e.write("\n")
-e.close()
+        output.write("Q: %s\nA: %s\n\n" % row[::-1])
+
+output.close()
